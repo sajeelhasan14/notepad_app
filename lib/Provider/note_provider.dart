@@ -8,13 +8,26 @@ class NoteProvider extends ChangeNotifier {
   String _searchQuery = "";
 
   List<Notes> get filteredNotes {
-    if (_searchQuery.isEmpty) return _notes;
-    return _notes
-        .where(
-          (note) =>
-              note.title.toLowerCase().contains(_searchQuery.toLowerCase()),
-        )
-        .toList();
+    List<Notes> sortedNotes = List.from(_notes);
+
+    // Sorting: pinned notes at top
+    sortedNotes.sort((a, b) {
+      if (a.isPinned && !b.isPinned) return -1;
+      if (!a.isPinned && b.isPinned) return 1;
+      return 0;
+    });
+
+    if (_searchQuery.isEmpty) return sortedNotes;
+
+    return sortedNotes.where((note) {
+      return note.title.toLowerCase().contains(_searchQuery.toLowerCase());
+    }).toList();
+  }
+
+  void togglePin(Notes note) {
+    note.isPinned = !note.isPinned;
+    saveNotesSP();
+    notifyListeners();
   }
 
   void updateSearchQuery(String input) {

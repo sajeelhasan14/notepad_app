@@ -44,7 +44,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             style: GoogleFonts.cinzel(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
           centerTitle: true,
@@ -54,12 +54,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               Navigator.pop(context);
             },
             icon: Icon(Icons.arrow_back_ios_new),
-            color: Colors.black,
+            color: Colors.white,
           ),
           actions: [
             showSaveButton
                 ? IconButton(
-                    icon: Icon(Icons.check, color: Colors.black),
+                    icon: Icon(Icons.check, color: Colors.white),
                     onPressed: () {
                       if (titleController.text.isEmpty) {
                         return;

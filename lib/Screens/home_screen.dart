@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: GoogleFonts.cinzel(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
           centerTitle: true,
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               MaterialPageRoute(builder: (context) => AddNoteScreen()),
             );
           },
-          child: Icon(Icons.add, color: Colors.black),
+          child: Icon(Icons.add, color: Colors.white),
         ),
         body: Provider.of<NoteProvider>(context).notes.isEmpty
             ? Center(

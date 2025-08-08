@@ -53,29 +53,19 @@ class NoteCard extends StatelessWidget {
       },
 
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      note.title,
-                      style: GoogleFonts.oswald(
-                        fontSize: 20,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(note.description),
-                  ],
-                ),
-              ),
-            ],
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          title: Text(note.title, style: GoogleFonts.poppins(fontSize: 20)),
+          subtitle: Text(note.description),
+          trailing: IconButton(
+            icon: Icon(
+              note.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+              // color: note.isPinned ? Color(0xff2F5AAF) : Colors.grey,
+              color: note.isPinned ? Colors.red : Colors.grey,
+            ),
+            onPressed: () {
+              value.togglePin(note);
+            },
           ),
         ),
       ),

@@ -47,7 +47,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
             style: GoogleFonts.cinzel(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
           centerTitle: true,

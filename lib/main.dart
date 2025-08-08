@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notepad_app/Provider/note_provider.dart';
+
 import 'package:notepad_app/Screens/splash_screen.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
