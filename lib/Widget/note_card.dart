@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notepad_app/Models/notes.dart';
+import 'package:notepad_app/Provider/multi_select_provider.dart';
 import 'package:notepad_app/Provider/note_provider.dart';
 import 'package:notepad_app/Screens/edit_note_screen.dart';
+import 'package:provider/provider.dart';
 
 class NoteCard extends StatelessWidget {
   final NoteProvider value;
@@ -18,41 +20,51 @@ class NoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final multiSelectProvider = Provider.of<MultiSelectProvider>(context);
+    final isSelected = multiSelectProvider.selectedIndexes.contains(index);
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditNoteScreen(index: index, notes: note),
-          ),
-        );
+        if (multiSelectProvider.isSelectionMode) {
+          multiSelectProvider.toggleSelection(index);
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditNoteScreen(index: index, notes: note),
+            ),
+          );
+        }
       },
       onLongPress: () {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Delete Note"),
-            content: Text("Are you sure you want to delete this note?"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  value.onNoteDelete(index);
-                  Navigator.pop(context);
-                },
-                child: Text("Delete", style: TextStyle(color: Colors.red)),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Cancel"),
-              ),
-            ],
-          ),
-        );
+        if (!multiSelectProvider.isSelectionMode) {
+          multiSelectProvider.enterSelectionMode(index);
+        }
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     title: Text("Delete Note"),
+        //     content: Text("Are you sure you want to delete this note?"),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () {
+        //           value.onNoteDelete(index);
+        //           Navigator.pop(context);
+        //         },
+        //         child: Text("Delete", style: TextStyle(color: Colors.red)),
+        //       ),
+        //       TextButton(
+        //         onPressed: () {
+        //           Navigator.pop(context);
+        //         },
+        //         child: Text("Cancel"),
+        //       ),
+        //     ],
+        //   ),
+        // );
       },
 
       child: Card(
+        color: isSelected ? Color(0xff2F5AAF) : null,
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           title: Text(note.title, style: GoogleFonts.poppins(fontSize: 20)),

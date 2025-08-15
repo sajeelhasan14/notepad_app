@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notepad_app/Provider/multi_select_provider.dart';
 
 import 'package:notepad_app/Provider/note_provider.dart';
+import 'package:notepad_app/Provider/theme_provider.dart';
 import 'package:notepad_app/Screens/add_note_screen.dart';
 import 'package:notepad_app/Widget/note_card.dart';
 import 'package:provider/provider.dart';
@@ -22,19 +24,83 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final noteProvider = Provider.of<NoteProvider>(context);
+    final multiSelectProvider = Provider.of<MultiSelectProvider>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Notes",
-            style: GoogleFonts.cinzel(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+          title: multiSelectProvider.isSelectionMode
+              ? Text(
+                  "${multiSelectProvider.selectedIndexes.length} selected",
+                  style: GoogleFonts.cinzel(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )
+              : Text(
+                  "Notes",
+                  style: GoogleFonts.cinzel(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
           centerTitle: true,
           backgroundColor: Color(0xff2F5AAF),
+          actions: [
+            if (multiSelectProvider.isSelectionMode)
+              IconButton(
+                icon: Icon(Icons.delete, color: Colors.white),
+                onPressed: () {
+                  multiSelectProvider.deleteSelected((index) {
+                    noteProvider.onNoteDelete(index);
+                  });
+                },
+              ),
+            if (!multiSelectProvider.isSelectionMode)
+              IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: 100,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Switch(
+                                value: Provider.of<ThemeProvider>(
+                                  context,
+                                ).isDark,
+                                onChanged: Provider.of<ThemeProvider>(
+                                  context,
+                                ).toggleTheme,
+                              ),
+                              Text("Dark Mode"),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                icon: Icon(Icons.more_vert, color: Colors.white),
+              ),
+          ],
+          leading: multiSelectProvider.isSelectionMode
+              ? IconButton(
+                  icon: Icon(Icons.close, color: Colors.white),
+                  onPressed: () {
+                    multiSelectProvider.clearSelection();
+                  },
+                )
+              : null,
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xff2F5AAF),
@@ -73,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10),
                         hintText: "Search Notes",
+
                         prefixIcon: Icon(Icons.search),
 
                         border: OutlineInputBorder(
