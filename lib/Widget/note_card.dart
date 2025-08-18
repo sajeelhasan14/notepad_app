@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:notepad_app/Models/notes.dart';
 import 'package:notepad_app/Provider/multi_select_provider.dart';
 import 'package:notepad_app/Provider/note_provider.dart';
-import 'package:notepad_app/Screens/edit_note_screen.dart';
+import 'package:notepad_app/Screens/NoteScreens/edit_note_screen.dart';
 import 'package:provider/provider.dart';
 
 class NoteCard extends StatelessWidget {
@@ -39,36 +40,24 @@ class NoteCard extends StatelessWidget {
         if (!multiSelectProvider.isSelectionMode) {
           multiSelectProvider.enterSelectionMode(index);
         }
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //     title: Text("Delete Note"),
-        //     content: Text("Are you sure you want to delete this note?"),
-        //     actions: [
-        //       TextButton(
-        //         onPressed: () {
-        //           value.onNoteDelete(index);
-        //           Navigator.pop(context);
-        //         },
-        //         child: Text("Delete", style: TextStyle(color: Colors.red)),
-        //       ),
-        //       TextButton(
-        //         onPressed: () {
-        //           Navigator.pop(context);
-        //         },
-        //         child: Text("Cancel"),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
 
       child: Card(
         color: isSelected ? Color(0xff2F5AAF) : null,
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          title: Text(note.title, style: GoogleFonts.poppins(fontSize: 20)),
-          subtitle: Text(note.description),
+          title: Text(note.title, style: GoogleFonts.poppins(fontSize: 22)),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(note.description, style: TextStyle(fontSize: 18)),
+              Text(
+                DateFormat("yMMMMd").format(note.date).toString(),
+
+                style: TextStyle(fontSize: 10),
+              ),
+            ],
+          ),
           trailing: IconButton(
             icon: Icon(
               note.isPinned ? Icons.push_pin : Icons.push_pin_outlined,

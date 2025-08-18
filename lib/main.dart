@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:notepad_app/Provider/multi_select_provider.dart';
 import 'package:notepad_app/Provider/note_provider.dart';
 import 'package:notepad_app/Provider/theme_provider.dart';
-
-import 'package:notepad_app/Screens/splash_screen.dart';
+import 'package:notepad_app/Provider/todo_provider.dart';
+import 'package:notepad_app/Screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,6 +14,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => NoteProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => MultiSelectProvider()),
+        ChangeNotifierProvider(create: (context) => TodoProvider()),
       ],
       child: const NotePad(),
     ),
@@ -32,7 +34,7 @@ class NotePad extends StatelessWidget {
           : ThemeMode.light,
       title: 'Note It',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: HomeScreen(),
     );
   }
 }

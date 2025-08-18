@@ -33,7 +33,7 @@ class MultiSelectProvider extends ChangeNotifier {
 
   void deleteSelected(Function(int index) deleteNote) {
     // Sort in reverse to avoid index shifting issues
-    _selectedIndexes.sort((a, b) => b.compareTo(a));
+    // _selectedIndexes.sort((a, b) => b.compareTo(a));
     for (var index in _selectedIndexes) {
       deleteNote(index);
     }

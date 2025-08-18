@@ -44,10 +44,12 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         appBar: AppBar(
           title: Text(
             "Edit Notes",
-            style: GoogleFonts.cinzel(
+            style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
               color: Colors.white,
+
+              fontFamily: 'Cinzel',
             ),
           ),
           centerTitle: true,

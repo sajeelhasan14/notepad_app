@@ -41,10 +41,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         appBar: AppBar(
           title: Text(
             "New Notes",
-            style: GoogleFonts.cinzel(
+            style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
               color: Colors.white,
+
+              fontFamily: 'Cinzel',
             ),
           ),
           centerTitle: true,

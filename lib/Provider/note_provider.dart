@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NoteProvider extends ChangeNotifier {
   List<Notes> _notes = List.empty(growable: true);
+  List<Notes> get notes => _notes;
   String _searchQuery = "";
 
   List<Notes> get filteredNotes {
@@ -20,7 +21,8 @@ class NoteProvider extends ChangeNotifier {
     if (_searchQuery.isEmpty) return sortedNotes;
 
     return sortedNotes.where((note) {
-      return note.title.toLowerCase().contains(_searchQuery.toLowerCase());
+      return note.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          note.description.toLowerCase().contains(_searchQuery.toLowerCase());
     }).toList();
   }
 
@@ -34,8 +36,6 @@ class NoteProvider extends ChangeNotifier {
     _searchQuery = input;
     notifyListeners();
   }
-
-  List<Notes> get notes => _notes;
 
   void onNewNoteCreated(Notes note) {
     notes.add(note);
