@@ -45,7 +45,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               fontSize: 25,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-
               fontFamily: 'Cinzel',
             ),
           ),
